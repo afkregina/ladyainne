@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lady Ainne</title>
     <style>
-        /* --- Fonts & Base Styling --- */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:ital@0;1&display=swap');
 
         body {
@@ -14,7 +13,7 @@
             background-color: #1a1a1a;
             color: #e0d8c0;
             font-family: 'Lora', serif;
-            overflow: hidden; /* Prevents scrolling */
+            overflow: hidden; 
         }
 
         h1, h2, h3 {
@@ -22,7 +21,6 @@
             text-align: center;
         }
 
-        /* --- Landing Page Styling --- */
         #landing-page {
             position: absolute;
             top: 0;
@@ -30,7 +28,6 @@
             width: 100vw;
             height: 100vh;
             background-color: #111;
-            /* A dark, moody texture for the entrance */
             background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?auto=format&fit=crop&q=80&w=1920');
             background-size: cover;
             background-position: center;
@@ -82,9 +79,13 @@
             box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
         }
 
-        /* --- Shame Page Styling --- */
+        .return-btn {
+            margin-top: 30px;
+            z-index: 4001;
+        }
+
         #shame-page {
-            display: none; /* Hidden by default */
+            display: none; 
             position: absolute;
             top: 0;
             left: 0;
@@ -95,41 +96,69 @@
             text-align: center;
         }
 
-        #shame-page img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.8;
-        }
-
-        #shame-text {
+        #shame-content {
             position: absolute;
             top: 10%;
             left: 50%;
             transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 3001;
+            width: 100%;
+        }
+
+        #shame-text {
             font-size: 5rem;
             color: #fff;
             font-family: 'Cinzel', serif;
             letter-spacing: 10px;
             text-shadow: 0 0 20px #ff0000;
+            margin: 0 0 20px 0;
         }
 
-        /* --- Map Container --- */
+        #shame-page img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
         #map-container {
             display: none; 
             position: relative;
             width: 100vw;
             height: 100vh;
-            background-image: url('map.jpg'); /* Your clean parchment map */
+            background-image: url('map.jpg'); 
             background-size: cover; 
             background-position: center;
             background-repeat: no-repeat;
             cursor: grab;
-            transition: opacity 2s ease-in-out; /* Added transition for fade out */
+            transition: opacity 2s ease-in-out; 
             opacity: 1;
         }
 
-        /* Visible Red Dot Pins */
+        #instruction-popup {
+            display: none;
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            background: rgba(26, 26, 26, 0.9);
+            border: 2px solid #ffd700;
+            color: #e0d8c0;
+            padding: 15px 20px;
+            border-radius: 6px;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            z-index: 1500;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
         .pin {
             position: absolute;
             width: 24px;
@@ -144,9 +173,8 @@
             z-index: 10;
         }
 
-        /* Style for visited pins */
         .pin.visited {
-            background-color: #555; /* Turns grey when clicked */
+            background-color: #555; 
             border-color: #aaa;
         }
 
@@ -176,7 +204,6 @@
             opacity: 1; 
         }
 
-        /* --- Modal Popup Styling --- */
         #milestone-modal {
             display: none;
             position: fixed;
@@ -246,22 +273,21 @@
             line-height: 1.6;
         }
 
-        /* --- Final Message Page Styling --- */
         #final-page {
-            display: none; /* Hidden initially */
+            display: none; 
             position: absolute;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
             background-color: #050505;
-            z-index: 4000; /* Highest z-index */
+            z-index: 4000; 
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             padding: 20px;
-            opacity: 0; /* Starts transparent for the fade-in */
+            opacity: 0; 
             transition: opacity 2s ease-in-out;
             background-image: radial-gradient(circle, #1a1a1a 0%, #000 80%);
         }
@@ -278,6 +304,7 @@
             color: #e0d8c0;
             max-width: 700px;
             line-height: 1.8;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -297,12 +324,17 @@
     </div>
 
     <div id="shame-page">
-        <h1 id="shame-text">SHAME!</h1>
+        <div id="shame-content">
+            <h1 id="shame-text">SHAME!</h1>
+            <button class="medieval-btn return-btn" onclick="returnToStart()">Beg Forgiveness & Return</button>
+        </div>
         <img src="https://media.tenor.com/bK1RSdwGIx0AAAAC/shame-go-t.gif" alt="Shame Bell">
     </div>
 
     <div id="map-container">
         
+        <div id="instruction-popup">Make sure to press all the red buttons!</div>
+
         <div id="pin-loc1" class="pin" style="top: 21%; left: 16%;" onclick="openModal('loc1')">
             <div class="pin-label">The Beginning</div>
         </div>
@@ -338,17 +370,30 @@
         <p class="final-message">
             We have charted all the great keeps of our realm, but the greatest adventure is the one we are still writing. Here is to many more conquests, feasts, and shared potions of dark elixir. Happy friendship day, Ainne!
         </p>
+        <button class="medieval-btn return-btn" onclick="returnToStart()">Return to the Realm</button>
     </div>
 
     <script>
-        // Tracker for visited locations
         const visitedLocations = new Set();
         let finalMessageTriggered = false;
 
-        // --- Navigation Logic ---
         function enterRealm() {
             document.getElementById('landing-page').style.display = 'none';
             document.getElementById('map-container').style.display = 'block';
+
+            const popup = document.getElementById('instruction-popup');
+            popup.style.display = 'block';
+            
+            setTimeout(() => {
+                popup.style.opacity = '1';
+            }, 100);
+
+            setTimeout(() => {
+                popup.style.opacity = '0';
+                setTimeout(() => {
+                    popup.style.display = 'none';
+                }, 1000);
+            }, 6000);
         }
 
         function triggerShame() {
@@ -356,8 +401,22 @@
             document.getElementById('shame-page').style.display = 'block';
         }
 
+        function returnToStart() {
+            document.getElementById('shame-page').style.display = 'none';
+            document.getElementById('final-page').style.display = 'none';
+            document.getElementById('map-container').style.display = 'none';
+            document.getElementById('final-page').style.opacity = '0';
+            
+            document.getElementById('landing-page').style.display = 'flex';
+            
+            document.getElementById('map-container').style.opacity = '1';
+            visitedLocations.clear();
+            finalMessageTriggered = false;
+            
+            const pins = document.querySelectorAll('.pin');
+            pins.forEach(pin => pin.classList.remove('visited'));
+        }
 
-        // --- Milestone Data ---
         const milestones = {
             loc1: {
                 title: "The Grand Citadel of Diliman",
@@ -398,10 +457,8 @@
             document.getElementById('modal-desc').innerText = data.desc;
             document.getElementById('modal-img').src = data.img;
             
-            // Mark location as visited
             visitedLocations.add(locId);
             
-            // Optional: Visually change the pin so she knows she clicked it
             document.getElementById('pin-' + locId).classList.add('visited');
             
             document.getElementById('modal-overlay').style.display = 'block';
@@ -412,7 +469,6 @@
             document.getElementById('modal-overlay').style.display = 'none';
             document.getElementById('milestone-modal').style.display = 'none';
 
-            // Check if all 5 locations have been visited
             if (visitedLocations.size === 5 && !finalMessageTriggered) {
                 finalMessageTriggered = true;
                 showFinalMessage();
@@ -420,27 +476,23 @@
         }
 
         function showFinalMessage() {
-            // Slight delay so the modal closing finishes first
             setTimeout(() => {
                 const mapContainer = document.getElementById('map-container');
                 const finalPage = document.getElementById('final-page');
                 
-                // Fade out map
                 mapContainer.style.opacity = '0';
                 
-                // Show final page (flex to keep it centered) and fade it in
                 finalPage.style.display = 'flex';
-                // Trigger a reflow so the transition actually runs
                 void finalPage.offsetWidth; 
                 finalPage.style.opacity = '1';
 
-                // Optional: completely hide the map after it fades out so it's unclickable
                 setTimeout(() => {
                     mapContainer.style.display = 'none';
                 }, 2000); 
 
-            }, 500); // Wait half a second after the last modal closes
+            }, 500); 
         }
     </script>
 </body>
 </html>
+
